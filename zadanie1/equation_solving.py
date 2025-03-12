@@ -49,14 +49,15 @@ def local_polynomial_derivative(x):
     return x * (6 * x - 8) - 6
 
 def nonlinear_function(func_id, x):
-    if func_id == 1:
-        return x**3 - 4*x - 9 # Example of a polynomial
-    elif func_id == 2:
-        return math.sin(x) - 0.5 # Example of a trigonometric function
-    elif func_id == 3:
-        return math.exp(x) - 3 # Example of an exponential function
-    else:
-        raise ValueError("Invalid function identifier.")
+    match func_id:
+        case 1:
+            return local_polynomial(x) # Example of a polynomial
+        case 2:
+            return local_sin(x) # Example of a trigonometric function
+        case 3:
+            return local_exp(x) # Example of an exponential function
+        case _:
+            raise ValueError("Invalid function identifier.")
 
 # Bisection method
 # Parameters:
@@ -67,11 +68,12 @@ def nonlinear_function(func_id, x):
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
 
-# TODO: finish implementing the algorithm, still not recursive with 'a' criterion
 def bisection_method(function, upper_bound, lower_bound, criterion='b', epsilon=0, max_iterations=100):
 
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
+
+    found_root = 0
 
     for iteration in range(max_iterations):
         found_root = (lower_bound + upper_bound) / 2.0
