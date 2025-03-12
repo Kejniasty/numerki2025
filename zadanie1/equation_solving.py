@@ -48,9 +48,6 @@ def local_exp_derivative(x):
 def local_polynomial_derivative(x):
     return x * (6 * x - 8) - 6
 
-
-import math
-
 def nonlinear_function(func_id, x):
     if func_id == 1:
         return x**3 - 4*x - 9 # Example of a polynomial
