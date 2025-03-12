@@ -2,6 +2,7 @@
 ### Lech Czochra
 ### Aleksandra Jakóbik
 
+# TODO: complex functions
 import math
 
 # more optimal power function, it operates on O(log n) computing time
