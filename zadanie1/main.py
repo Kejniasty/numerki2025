@@ -4,5 +4,5 @@
 
 import equation_solving as es
 
-print(es.bisection_method(2, 10, 8, 'b', 0, 100000))
-# TODO: user choice, drawing plots
+print(es.bisection_method_b(2, 10, 8, 10000))
+# TODO: user interface, drawing plots

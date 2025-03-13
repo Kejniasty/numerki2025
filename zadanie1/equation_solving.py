@@ -5,6 +5,19 @@
 # TODO: complex functions
 import math
 
+# used for calculating the value of a polynomial
+# takes an array of factors and an x value
+# we treat their indexes as the place where they are in the polynomial
+# factor with an index = n is the factor of x^m-n
+# where m is the length of the factors array
+# returns the value of a specified polynomial
+def horner_method(factors, x):
+    value = factors[0]
+    for i in range(1, len(factors)):
+        value = factors[i] + value * x
+    return value
+
+
 # more optimal power function, it operates on O(log n) computing time
 # when exponent is odd, we multiply the result by the base,
 # then we multiply base by itself, and lastly we take half of the exponent away
@@ -17,74 +30,116 @@ def power(base, exponent):
         exponent = exponent // 2
     return result
 
+
 # sinus function
 # it is given by the formula y = sin(2x)
 def local_sin(x):
     return math.sin(2 * x)
+
 
 # exponential function
 # it is given by the formula y = 3^x
 def local_exp(x):
     return power(3, x)
 
+
 # polynomial function
 # it is given by the formula y = 2x^3 - 4x^2 - 6x + 12
 # to make its calculation time faster, we use Horner's method (O(n))
 def local_polynomial(x):
-    return x * (x * (2 * x - 4) - 6) + 12
+    return horner_method([2, -4, -6, 12], x)
+
 
 # sinus' derivative
 # (sin(2x))' = 2cos(2x)
 def local_sin_derivative(x):
     return 2 * math.cos(2 * x)
 
+
 # exponential function's derivative
 # (3^x)' = 3^x * ln(3)
 def local_exp_derivative(x):
     return power(3, x) * math.log(3)
 
+
 # polynomial's derivative
 # (2x^3 - 4x^2 - 6x + 12)' = 6x^2 - 8x - 6
 # also calculated with Horner's method
 def local_polynomial_derivative(x):
-    return x * (6 * x - 8) - 6
+    return horner_method([6, -8, -6], x)
 
+
+# returns the value in x of a function specified by id
 def nonlinear_function(func_id, x):
     match func_id:
         case 1:
-            return local_polynomial(x) # Example of a polynomial
+            return local_polynomial(x)  # Example of a polynomial
         case 2:
-            return local_sin(x) # Example of a trigonometric function
+            return local_sin(x)  # Example of a trigonometric function
         case 3:
-            return local_exp(x) # Example of an exponential function
+            return local_exp(x)  # Example of an exponential function
         case _:
             raise ValueError("Invalid function identifier.")
+
+
+# returns the value in x of a derivative of a function specified by id
+def nonlinear_function_derivative(func_id, x):
+    match func_id:
+        case 1:
+            return local_polynomial_derivative(x)  # Example of a polynomial
+        case 2:
+            return local_sin_derivative(x)  # Example of a trigonometric function
+        case 3:
+            return local_exp_derivative(x)  # Example of an exponential function
+        case _:
+            raise ValueError("Invalid function identifier.")
+
 
 # Bisection method
 # Parameters:
 ## function - int, specifies what non-linear function will be used in the algorithm
 ## upper_bound, lower_bound - float, specifies the bounds of an interval, where we want to find the root of the function
-## criterion - char (a or b), specifies what kind of stop criterion should be used
 ## epsilon - float, used when criterion == 'a', stops the algorithm if abs(f(found_root)) < epsilon
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
+## iteration - int, amount of loops done by the algorithm
+def bisection_method_a(function, lower_bound, upper_bound, epsilon=0):
+    if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
+        raise ValueError("Function must have opposite signs at the ends of the interval!")
 
-def bisection_method(function, upper_bound, lower_bound, criterion='b', epsilon=0, max_iterations=100):
+    found_root = 0
+    iteration = 0
+    f_mid = float('inf')
 
+    while abs(f_mid) < epsilon:
+        iteration += 1
+        found_root = (lower_bound + upper_bound) / 2.0
+        f_mid = nonlinear_function(function, found_root)
+
+        if nonlinear_function(function, lower_bound) * f_mid < 0:
+            upper_bound = found_root
+        else:
+            lower_bound = found_root
+
+    return found_root, iteration
+
+
+# Bisection method
+# Parameters:
+## function - int, specifies what non-linear function will be used in the algorithm
+## upper_bound, lower_bound - float, specifies the bounds of an interval, where we want to find the root of the function
+## max_iterations - int, specifies how many times the algorithm loops before stopping
+# Return values:
+## found_root - float, value of a root of the specified function in the chosen interval
+def bisection_method_b(function, lower_bound, upper_bound, max_iterations):
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
 
     found_root = 0
 
-    for iteration in range(max_iterations):
+    for i in range(max_iterations):
         found_root = (lower_bound + upper_bound) / 2.0
         f_mid = nonlinear_function(function, found_root)
-
-        if criterion == 'a' and abs(f_mid) < epsilon:
-            return found_root
-
-        if criterion == 'b' and abs(upper_bound - lower_bound) < epsilon:
-            return found_root
 
         if nonlinear_function(function, lower_bound) * f_mid < 0:
             upper_bound = found_root
@@ -97,11 +152,42 @@ def bisection_method(function, upper_bound, lower_bound, criterion='b', epsilon=
 # Parameters:
 ## function - int, specifies what non-linear function will be used in the algorithm
 ## upper_bound, lower_bound - float, specifies the bounds of an interval, where we want to find the root of the function
-## criterion - char (a or b), specifies what kind of stop criterion should be used
-## epsilon - float, used when criterion == 'a', stops the algorithm if abs(f(found_root)) < epsilon
+## epsilon - float, stops the algorithm if abs(f(found_root)) < epsilon
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
-def newton_method(function, upper_bound, lower_bound, criterion='b', epsilon=0):
+## iteration - int, amount of loops done by the algorithm
+def newton_method_crit_a(function, lower_bound, upper_bound, epsilon=0):
+
+    if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
+        raise ValueError("Function must have opposite signs at the ends of the interval!")
+
     found_root = 0.0
-    # TODO: implement the algorithm
+    iteration = 0
+    f_mid = float('inf')
+
+    while abs(f_mid) < epsilon:
+        iteration += 1
+        found_root = lower_bound - nonlinear_function(function, lower_bound) / nonlinear_function_derivative(function,
+                                                                                                             lower_bound)
+        lower_bound = found_root
+        f_mid = nonlinear_function(function, lower_bound)
+    return found_root, iteration
+
+# Newton's method
+# Parameters:
+## function - int, specifies what non-linear function will be used in the algorithm
+## upper_bound, lower_bound - float, specifies the bounds of an interval, where we want to find the root of the function
+## max_iterations - int, specifies how many times the algorithm loops before stopping
+# Return values:
+## found_root - float, value of a root of the specified function in the chosen interval
+def newton_method_crit_b(function, lower_bound, upper_bound, max_iterations):
+    if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
+        raise ValueError("Function must have opposite signs at the ends of the interval!")
+
+    found_root = 0.0
+
+    for i in range(max_iterations):
+        found_root = lower_bound - nonlinear_function(function, lower_bound) / nonlinear_function_derivative(function,
+                                                                                                             lower_bound)
+        lower_bound = found_root
     return found_root
