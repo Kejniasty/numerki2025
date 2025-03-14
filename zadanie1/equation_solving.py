@@ -85,7 +85,8 @@ def nonlinear_function(func_id, x):
 # returns the value in x of a derivative of a function specified by id
 def nonlinear_function_derivative(func_id, x):
     match func_id:
-        case 1:
+        case \
+            1:
             return local_polynomial_derivative(x)  # Example of a polynomial
         case 2:
             return local_sin_derivative(x)  # Example of a trigonometric function
@@ -111,7 +112,7 @@ def bisection_method_a(function, lower_bound, upper_bound, epsilon=0):
     iteration = 0
     f_mid = float('inf')
 
-    while abs(f_mid) < epsilon:
+    while abs(f_mid) > epsilon:
         iteration += 1
         found_root = (lower_bound + upper_bound) / 2.0
         f_mid = nonlinear_function(function, found_root)
@@ -156,7 +157,7 @@ def bisection_method_b(function, lower_bound, upper_bound, max_iterations):
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
 ## iteration - int, amount of loops done by the algorithm
-def newton_method_crit_a(function, lower_bound, upper_bound, epsilon=0):
+def newton_method_a(function, lower_bound, upper_bound, epsilon=0):
 
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
@@ -165,7 +166,7 @@ def newton_method_crit_a(function, lower_bound, upper_bound, epsilon=0):
     iteration = 0
     f_mid = float('inf')
 
-    while abs(f_mid) < epsilon:
+    while abs(f_mid) > epsilon:
         iteration += 1
         found_root = lower_bound - nonlinear_function(function, lower_bound) / nonlinear_function_derivative(function,
                                                                                                              lower_bound)
@@ -180,7 +181,7 @@ def newton_method_crit_a(function, lower_bound, upper_bound, epsilon=0):
 ## max_iterations - int, specifies how many times the algorithm loops before stopping
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
-def newton_method_crit_b(function, lower_bound, upper_bound, max_iterations):
+def newton_method_b(function, lower_bound, upper_bound, max_iterations):
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
 
