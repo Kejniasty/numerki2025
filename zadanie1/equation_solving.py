@@ -17,7 +17,6 @@ def horner_method(factors, x):
         value = factors[i] + value * x
     return value
 
-
 # more optimal power function, it operates on O(log n) computing time
 # when exponent is odd, we multiply the result by the base,
 # then we multiply base by itself, and lastly we take half of the exponent away
@@ -30,18 +29,15 @@ def power(base, exponent):
         exponent = exponent // 2
     return result
 
-
 # sinus function
 # it is given by the formula y = sin(2x)
 def local_sin(x):
     return math.sin(2 * x)
 
-
 # exponential function
 # it is given by the formula y = 3^x
 def local_exp(x):
     return power(3, x)
-
 
 # polynomial function
 # it is given by the formula y = 2x^3 - 4x^2 - 6x + 12
@@ -49,25 +45,24 @@ def local_exp(x):
 def local_polynomial(x):
     return horner_method([2, -4, -6, 12], x)
 
+def compose(f, g, x):
+    return f(g(x))
 
 # sinus' derivative
 # (sin(2x))' = 2cos(2x)
-def local_sin_derivative(x):
+def lSocal_sin_derivative(x):
     return 2 * math.cos(2 * x)
-
 
 # exponential function's derivative
 # (3^x)' = 3^x * ln(3)
 def local_exp_derivative(x):
     return power(3, x) * math.log(3)
 
-
 # polynomial's derivative
 # (2x^3 - 4x^2 - 6x + 12)' = 6x^2 - 8x - 6
 # also calculated with Horner's method
 def local_polynomial_derivative(x):
     return horner_method([6, -8, -6], x)
-
 
 # returns the value in x of a function specified by id
 def nonlinear_function(func_id, x):
@@ -78,9 +73,10 @@ def nonlinear_function(func_id, x):
             return local_sin(x)  # Example of a trigonometric function
         case 3:
             return local_exp(x)  # Example of an exponential function
+        case 4:
+            return compose(local_sin, local_polynomial, x)
         case _:
             raise ValueError("Invalid function identifier.")
-
 
 # returns the value in x of a derivative of a function specified by id
 def nonlinear_function_derivative(func_id, x):
@@ -94,7 +90,6 @@ def nonlinear_function_derivative(func_id, x):
             return local_exp_derivative(x)  # Example of an exponential function
         case _:
             raise ValueError("Invalid function identifier.")
-
 
 # Bisection method
 # Parameters:
@@ -123,7 +118,6 @@ def bisection_method_a(function, lower_bound, upper_bound, epsilon=0):
             lower_bound = found_root
 
     return found_root, iteration
-
 
 # Bisection method
 # Parameters:
