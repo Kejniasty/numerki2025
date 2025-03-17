@@ -2,7 +2,8 @@
 ### Lech Czochra
 ### Aleksandra Jakóbik
 
-# TODO: complex functions
+# TODO: review the complex function making solution
+
 import math
 
 # used for calculating the value of a polynomial
@@ -45,12 +46,17 @@ def local_exp(x):
 def local_polynomial(x):
     return horner_method([2, -4, -6, 12], x)
 
+# complex function composer
 def compose(f, g, x):
     return f(g(x))
 
+# complex function derivative composer
+def compose_derivative(f, f_derivative, g, g_derivative, x):
+    return f_derivative(g(x)) * g_derivative(x)
+
 # sinus' derivative
 # (sin(2x))' = 2cos(2x)
-def lSocal_sin_derivative(x):
+def local_sin_derivative(x):
     return 2 * math.cos(2 * x)
 
 # exponential function's derivative
@@ -75,19 +81,30 @@ def nonlinear_function(func_id, x):
             return local_exp(x)  # Example of an exponential function
         case 4:
             return compose(local_sin, local_polynomial, x)
+        case 5:
+            return compose(local_polynomial, local_sin, x)
+        case 6:
+            return compose(local_exp, local_polynomial, x)
+        case 7:
+            return compose(local_polynomial, local_exp, x)
+        case 8:
+            return compose(local_exp, local_sin, x)
+        case 9:
+            return compose(local_sin, local_exp, x)
         case _:
             raise ValueError("Invalid function identifier.")
 
 # returns the value in x of a derivative of a function specified by id
 def nonlinear_function_derivative(func_id, x):
     match func_id:
-        case \
-            1:
+        case 1:
             return local_polynomial_derivative(x)  # Example of a polynomial
         case 2:
             return local_sin_derivative(x)  # Example of a trigonometric function
         case 3:
             return local_exp_derivative(x)  # Example of an exponential function
+        case 4:
+            return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
         case _:
             raise ValueError("Invalid function identifier.")
 

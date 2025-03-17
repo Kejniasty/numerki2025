@@ -6,20 +6,24 @@ import equation_solving as es
 import matplotlib.pyplot as plt
 import numpy as np
 
-# TODO: improve drawing plots, add complex functions to user interface
+function_choice = int(input("Choose a function: \n "
+               "1. Polynomial (y = 2x^3 - 4x^2 - 6x + 12) \n "
+               "2. Trigonometric (y = sin(2x)) \n "
+               "3. Exponential (y = 3^x) \n "
+               "4. Trigonometric + Polynomial \n "
+               "5. Polynomial + Trigonometric \n "
+               "6. Exponential + Polynomial \n "
+               "7. Polynomial + Exponential \n "
+               "8. Exponential + Trigonometric \n "
+               "9. Trigonometric + Exponential \n "))
 
-# function_choice = int(input("Choose a function: \n "
-#                "1. Polynomial (y = 2x^3 - 4x^2 - 6x + 12) \n "
-#                "2. Trigonometric (y = sin(2x)) \n "
-#                "3. Exponential (y = 3^x) \n "))
-#
-# lower_bound_choice = int(input("Choose a lower bound: \n "))
-#
-# upper_bound_choice = int(input("Choose a upper bound: \n "))
-#
-# criterion_choice = input("Choose the stop criterion: \n "
-#                          "a. |f(xi)| < ε \n "
-#                          "b. number of iterations \n ")
+lower_bound_choice = int(input("Choose a lower bound: \n "))
+
+upper_bound_choice = int(input("Choose a upper bound: \n "))
+
+criterion_choice = input("Choose the stop criterion: \n "
+                         "a. |f(xi)| < ε \n "
+                         "b. number of iterations \n ")
 
 def plot_function_a (function_id, lower_bound, upper_bound, epsilon):
     # Tworzenie zakresu wartości X
@@ -33,6 +37,12 @@ def plot_function_a (function_id, lower_bound, upper_bound, epsilon):
 
     root_bisection = es.bisection_method_a(function_id, lower_bound, upper_bound, epsilon)[0]
     root_newton = es.newton_method_a(function_id, lower_bound, upper_bound, epsilon)[0]
+
+    iterations_bisection = es.bisection_method_a(function_id, lower_bound, upper_bound, epsilon)[1]
+    iterations_newton = es.newton_method_a(function_id, lower_bound, upper_bound, epsilon)[1]
+
+    print ("Bisection method - found root: ", root_bisection, "iterations: ", iterations_bisection)
+    print ("Newton's method - found root: ", root_newton, "iterations: ", iterations_newton)
 
     plt.scatter(root_bisection, 0, color='#eb468b', label=f'Bisection (ε): x={root_bisection:.5f}', zorder=3, s=110)
     plt.scatter(root_newton, 0, color='#F7B6D1', label=f'Newton (ε): x={root_newton:.5f}', zorder=3, s=50)
@@ -57,6 +67,9 @@ def plot_function_b (function_id, lower_bound, upper_bound, iterations):
     root_bisection = es.bisection_method_b(function_id, lower_bound, upper_bound, iterations)
     root_newton = es.newton_method_b(function_id, lower_bound, upper_bound, iterations)
 
+    print("Bisection method - found root: ", root_bisection)
+    print("Newton's method - found root: ", root_newton)
+
     plt.scatter(root_bisection, 0, color='#eb468b', label=f'Bisection (ε): x={root_bisection:.5f}', zorder=3, s=110)
     plt.scatter(root_newton, 0, color='#F7B6D1', label=f'Newton (ε): x={root_newton:.5f}', zorder=3, s=50)
 
@@ -67,12 +80,11 @@ def plot_function_b (function_id, lower_bound, upper_bound, iterations):
     plt.title("Wykres funkcji z zaznaczonymi miejscami zerowymi")
     plt.show()
 
-# if criterion_choice == 'a':
-#     epsilon_choice = float(input("choose epsilon:  \n "))
-#     plot_function_a(function_choice, lower_bound_choice, upper_bound_choice, epsilon_choice)
-# else:
-#     iterations_choice = int(input("choose the number of iterations: \n "))
-#     plot_function_b(function_choice, lower_bound_choice, upper_bound_choice, iterations_choice)
+if criterion_choice == 'a':
+    epsilon_choice = float(input("choose epsilon:  \n "))
+    plot_function_a(function_choice, lower_bound_choice, upper_bound_choice, epsilon_choice)
+else:
+    iterations_choice = int(input("choose the number of iterations: \n "))
+    plot_function_b(function_choice, lower_bound_choice, upper_bound_choice, iterations_choice)
 
-print(es.local_sin(es.local_polynomial(1)))
-print (es.compose(es.local_sin, es.local_polynomial, 1))
+
