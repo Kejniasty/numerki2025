@@ -15,8 +15,7 @@ function_choice = int(input("Choose a function: \n "
                "6. Exponential + Polynomial \n "
                "7. Polynomial + Exponential \n "
                "8. Exponential + Trigonometric \n "
-               "9. Trigonometric + Exponential \n "
-               "10: halo \n"))
+               "9. Trigonometric + Exponential \n "))
 
 lower_bound_choice = float(input("Choose a lower bound: \n "))
 
