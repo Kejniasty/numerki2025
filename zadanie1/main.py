@@ -9,18 +9,18 @@ import numpy as np
 function_choice = int(input("Choose a function: \n "
                "1. Polynomial (y = 2x^3 - 4x^2 - 6x + 12) \n "
                "2. Trigonometric (y = sin(2x)) \n "
-               "3. Exponential (y = 3^x - 10) \n "))
-               # "4. Trigonometric + Polynomial \n "
-               # "5. Polynomial + Trigonometric \n "
-               # "6. Exponential + Polynomial \n "
-               # "7. Polynomial + Exponential \n "
-               # "8. Exponential + Trigonometric \n "
-               # "9. Trigonometric + Exponential \n "
-               # "10: halo \n"))
+               "3. Exponential (y = 3^x - 10) \n "
+               "4. Trigonometric + Polynomial \n "
+               "5. Polynomial + Trigonometric \n "
+               "6. Exponential + Polynomial \n "
+               "7. Polynomial + Exponential \n "
+               "8. Exponential + Trigonometric \n "
+               "9. Trigonometric + Exponential \n "
+               "10: halo \n"))
 
-lower_bound_choice = int(input("Choose a lower bound: \n "))
+lower_bound_choice = float(input("Choose a lower bound: \n "))
 
-upper_bound_choice = int(input("Choose a upper bound: \n "))
+upper_bound_choice = float(input("Choose a upper bound: \n "))
 
 criterion_choice = input("Choose the stop criterion: \n "
                          "a. |f(xi)| < ε \n "

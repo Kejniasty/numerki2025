@@ -5,6 +5,8 @@
 # TODO: review the complex function making solution
 
 import math
+import numpy as np
+
 
 # used for calculating the value of a polynomial
 # takes an array of factors and an x value
@@ -17,6 +19,25 @@ def horner_method(factors, x):
     for i in range(1, len(factors)):
         value = factors[i] + value * x
     return value
+
+def check_derivative_sign(func_id, lower_bound, upper_bound):
+    f_lower = nonlinear_function_derivative(func_id, lower_bound)
+    f_upper = nonlinear_function_derivative(func_id, upper_bound)
+
+    if f_lower == 0 or f_upper == 0: # if endpoint is zero, the sign could change
+        return False
+
+    if f_lower * f_upper < 0: # endpoints are of different signs
+        return False
+
+    x_vals = np.linspace(lower_bound, upper_bound, 50)
+    y_vals = [nonlinear_function_derivative(func_id, x) for x in x_vals]
+
+    for y in y_vals:
+        if f_lower * y < 0: # check if every value of the derivative has the same sign as the lower bounds of the interval
+            return False
+
+    return True
 
 # more optimal power function, it operates on O(log n) computing time
 # when exponent is odd, we multiply the result by the base,
@@ -52,13 +73,13 @@ def local_exp(x):
 def local_polynomial(x):
     return horner_method([2, -4, -6, 12], x)
 
-# # complex function composer
-# def compose(f, g, x):
-#     return f(g(x))
-#
-# # complex function derivative composer
-# def compose_derivative(f, f_derivative, g, g_derivative, x):
-#     return f_derivative(g(x)) * g_derivative(x)
+# complex function composer
+def compose(f, g, x):
+    return f(g(x))
+
+# complex function derivative composer
+def compose_derivative(f, f_derivative, g, g_derivative, x):
+    return f_derivative(g(x)) * g_derivative(x)
 
 # sinus' derivative
 # (sin(2x))' = 2cos(2x)
@@ -85,20 +106,18 @@ def nonlinear_function(func_id, x):
             return local_sin(x)  # Example of a trigonometric function
         case 3:
             return local_exp(x)  # Example of an exponential function
-        # case 4:
-        #     return compose(local_sin, local_polynomial, x)
-        # case 5:
-        #     return compose(local_polynomial, local_sin, x)
-        # case 6:
-        #     return compose(local_exp, local_polynomial, x)
-        # case 7:
-        #     return compose(local_polynomial, local_exp, x)
-        # case 8:
-        #     return compose(local_exp, local_sin, x)
-        # case 9:
-        #     return compose(local_sin, local_exp, x)
-        # case 10:
-        #     return test(x)
+        case 4:
+            return compose(local_sin, local_polynomial, x)
+        case 5:
+            return compose(local_polynomial, local_sin, x)
+        case 6:
+            return compose(local_exp, local_polynomial, x)
+        case 7:
+            return compose(local_polynomial, local_exp, x)
+        case 8:
+            return compose(local_exp, local_sin, x)
+        case 9:
+            return compose(local_sin, local_exp, x)
         case _:
             raise ValueError("Invalid function identifier.")
 
@@ -111,20 +130,18 @@ def nonlinear_function_derivative(func_id, x):
             return local_sin_derivative(x)  # Example of a trigonometric function
         case 3:
             return local_exp_derivative(x)  # Example of an exponential function
-        # case 4:
-        #     return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
-        # case 5:
-        #     return compose_derivative(local_polynomial, local_polynomial_derivative, local_sin, local_sin_derivative, x)
-        # case 6:
-        #     return compose_derivative(local_exp, local_exp_derivative, local_polynomial, local_polynomial_derivative, x)
-        # case 7:
-        #     return compose_derivative(local_polynomial, local_polynomial_derivative, local_exp, local_exp_derivative, x)
-        # case 8:
-        #     return compose_derivative(local_exp, local_exp_derivative, local_sin, local_sin_derivative, x)
-        # case 9:
-        #     return compose_derivative(local_sin, local_sin_derivative, local_exp, local_exp_derivative, x)
-        # case 10:
-        #     return test_pochodna(x)
+        case 4:
+            return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
+        case 5:
+            return compose_derivative(local_polynomial, local_polynomial_derivative, local_sin, local_sin_derivative, x)
+        case 6:
+            return compose_derivative(local_exp, local_exp_derivative, local_polynomial, local_polynomial_derivative, x)
+        case 7:
+            return compose_derivative(local_polynomial, local_polynomial_derivative, local_exp, local_exp_derivative, x)
+        case 8:
+            return compose_derivative(local_exp, local_exp_derivative, local_sin, local_sin_derivative, x)
+        case 9:
+            return compose_derivative(local_sin, local_sin_derivative, local_exp, local_exp_derivative, x)
         case _:
             raise ValueError("Invalid function identifier.")
 
@@ -193,6 +210,9 @@ def newton_method_a(function, lower_bound, upper_bound, epsilon=0):
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
 
+    if not check_derivative_sign(function, lower_bound, upper_bound):
+        raise ValueError("Function's derivative must have the same sign across the interval!")
+
     found_root = 0.0
     iteration = 0
     f_mid = float('inf')
@@ -213,8 +233,12 @@ def newton_method_a(function, lower_bound, upper_bound, epsilon=0):
 # Return values:
 ## found_root - float, value of a root of the specified function in the chosen interval
 def newton_method_b(function, lower_bound, upper_bound, max_iterations):
+
     if nonlinear_function(function, upper_bound) * nonlinear_function(function, lower_bound) >= 0:
         raise ValueError("Function must have opposite signs at the ends of the interval!")
+
+    if not check_derivative_sign(function, lower_bound, upper_bound):
+        raise ValueError("Function's derivative must have the same sign across the interval!")
 
     found_root = 0.0
 
