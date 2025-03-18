@@ -210,12 +210,11 @@ def newton_method_a(function, lower_bound, upper_bound, epsilon=0):
 
     found_root = 0.0
     iteration = 0
-    f_mid = float('inf')
+    f_mid = nonlinear_function(function, lower_bound)
 
     while abs(f_mid) > epsilon:
         iteration += 1
-        found_root = lower_bound - nonlinear_function(function, lower_bound) / nonlinear_function_derivative(function,
-                                                                                                             lower_bound)
+        found_root = lower_bound - f_mid / nonlinear_function_derivative(function, lower_bound)
         lower_bound = found_root
         f_mid = nonlinear_function(function, lower_bound)
     return found_root, iteration
