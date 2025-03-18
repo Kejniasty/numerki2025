@@ -38,7 +38,7 @@ def local_sin(x):
 # exponential function
 # it is given by the formula y = 3^x
 def local_exp(x):
-    return power(3, x) - 10
+    return pow(3, x) - 10
 
 # def test(x):
 #     return math.sin(2 * math.pow(3, x))
@@ -68,7 +68,7 @@ def local_sin_derivative(x):
 # exponential function's derivative
 # (3^x)' = 3^x * ln(3)
 def local_exp_derivative(x):
-    return power(3, x) * math.log(3)
+    return pow(3, x) * math.log(3)
 
 # polynomial's derivative
 # (2x^3 - 4x^2 - 6x + 12)' = 6x^2 - 8x - 6
