@@ -161,7 +161,9 @@ def bisection_method_a(function, lower_bound, upper_bound, epsilon=0):
         found_root = (lower_bound + upper_bound) / 2.0
         f_mid = nonlinear_function(function, found_root)
 
-        if nonlinear_function(function, lower_bound) * f_mid < 0:
+        if f_mid == 0:
+            return found_root, iteration
+        elif nonlinear_function(function, lower_bound) * f_mid < 0:
             upper_bound = found_root
         else:
             lower_bound = found_root
@@ -184,7 +186,10 @@ def bisection_method_b(function, lower_bound, upper_bound, max_iterations):
     for i in range(max_iterations):
         found_root = (lower_bound + upper_bound) / 2.0
 
-        if nonlinear_function(function, lower_bound) * nonlinear_function(function, found_root) < 0:
+        f_mid = nonlinear_function(function, found_root)
+        if f_mid == 0:
+            return found_root
+        elif nonlinear_function(function, lower_bound) * f_mid < 0:
             upper_bound = found_root
         else:
             lower_bound = found_root
