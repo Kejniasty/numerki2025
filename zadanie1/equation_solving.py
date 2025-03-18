@@ -37,7 +37,7 @@ def check_derivative_sign(func_id, lower_bound, upper_bound):
     y_vals = [nonlinear_function_derivative(func_id, x) for x in x_vals]
 
     for y in y_vals:
-        if f_lower * y < 0: # check if every value of the derivative has the same sign as the lower bounds of the interval
+        if f_lower * y <= 0: # check if every value of the derivative has the same sign as the lower bounds of the interval
             return False
 
     return True
