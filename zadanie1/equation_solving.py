@@ -7,7 +7,6 @@
 import math
 import numpy as np
 
-
 # used for calculating the value of a polynomial
 # takes an array of factors and an x value
 # we treat their indexes as the place where they are in the polynomial
@@ -19,7 +18,6 @@ def horner_method(factors, x):
     for i in range(1, len(factors)):
         value = factors[i] + value * x
     return value
-
 
 # function that checks if on a given interval the function's (given by its id) derivative changes its sign
 # returns True if the interval doesn't change its sign
@@ -63,12 +61,6 @@ def local_sin(x):
 # it is given by the formula y = 3^x
 def local_exp(x):
     return pow(3, x) - 10
-
-# def test(x):
-#     return math.sin(2 * math.pow(3, x))
-#
-# def test_pochodna(x):
-#     return 2 * math.pow(3, x) * math.log(3) * math.cos(2 * math.pow(3, x))
 
 # polynomial function
 # it is given by the formula y = 2x^3 - 4x^2 - 6x + 12
