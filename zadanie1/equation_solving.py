@@ -104,14 +104,10 @@ def nonlinear_function(func_id, x):
         case 4:
             return compose(local_sin, local_polynomial, x)
         case 5:
-            return compose(local_polynomial, local_sin, x)
-        case 6:
             return compose(local_exp, local_polynomial, x)
-        case 7:
+        case 6:
             return compose(local_polynomial, local_exp, x)
-        case 8:
-            return compose(local_exp, local_sin, x)
-        case 9:
+        case 7:
             return compose(local_sin, local_exp, x)
         case _:
             raise ValueError("Invalid function identifier.")
@@ -128,14 +124,10 @@ def nonlinear_function_derivative(func_id, x):
         case 4:
             return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
         case 5:
-            return compose_derivative(local_polynomial, local_polynomial_derivative, local_sin, local_sin_derivative, x)
-        case 6:
             return compose_derivative(local_exp, local_exp_derivative, local_polynomial, local_polynomial_derivative, x)
-        case 7:
+        case 6:
             return compose_derivative(local_polynomial, local_polynomial_derivative, local_exp, local_exp_derivative, x)
-        case 8:
-            return compose_derivative(local_exp, local_exp_derivative, local_sin, local_sin_derivative, x)
-        case 9:
+        case 7:
             return compose_derivative(local_sin, local_sin_derivative, local_exp, local_exp_derivative, x)
         case _:
             raise ValueError("Invalid function identifier.")
