@@ -40,11 +40,11 @@ def local_sin(x):
 def local_exp(x):
     return pow(3, x) - 10
 
-# def test(x):
-#     return math.sin(2 * math.pow(3, x))
-#
-# def test_pochodna(x):
-#     return 2 * math.pow(3, x) * math.log(3) * math.cos(2 * math.pow(3, x))
+def test(x):
+    return math.sin(2 * math.pow(3, x))
+
+def test_pochodna(x):
+    return 2 * math.pow(3, x) * math.log(3) * math.cos(2 * math.pow(3, x))
 
 # polynomial function
 # it is given by the formula y = 2x^3 - 4x^2 - 6x + 12
@@ -52,13 +52,13 @@ def local_exp(x):
 def local_polynomial(x):
     return horner_method([2, -4, -6, 12], x)
 
-# # complex function composer
-# def compose(f, g, x):
-#     return f(g(x))
-#
-# # complex function derivative composer
-# def compose_derivative(f, f_derivative, g, g_derivative, x):
-#     return f_derivative(g(x)) * g_derivative(x)
+# complex function composer
+def compose(f, g, x):
+    return f(g(x))
+
+# complex function derivative composer
+def compose_derivative(f, f_derivative, g, g_derivative, x):
+    return f_derivative(g(x)) * g_derivative(x)
 
 # sinus' derivative
 # (sin(2x))' = 2cos(2x)
@@ -85,20 +85,20 @@ def nonlinear_function(func_id, x):
             return local_sin(x)  # Example of a trigonometric function
         case 3:
             return local_exp(x)  # Example of an exponential function
-        # case 4:
-        #     return compose(local_sin, local_polynomial, x)
-        # case 5:
-        #     return compose(local_polynomial, local_sin, x)
-        # case 6:
-        #     return compose(local_exp, local_polynomial, x)
-        # case 7:
-        #     return compose(local_polynomial, local_exp, x)
-        # case 8:
-        #     return compose(local_exp, local_sin, x)
-        # case 9:
-        #     return compose(local_sin, local_exp, x)
-        # case 10:
-        #     return test(x)
+        case 4:
+            return compose(local_sin, local_polynomial, x)
+        case 5:
+            return compose(local_polynomial, local_sin, x)
+        case 6:
+            return compose(local_exp, local_polynomial, x)
+        case 7:
+            return compose(local_polynomial, local_exp, x)
+        case 8:
+            return compose(local_exp, local_sin, x)
+        case 9:
+            return compose(local_sin, local_exp, x)
+        case 10:
+            return test(x)
         case _:
             raise ValueError("Invalid function identifier.")
 
@@ -111,20 +111,20 @@ def nonlinear_function_derivative(func_id, x):
             return local_sin_derivative(x)  # Example of a trigonometric function
         case 3:
             return local_exp_derivative(x)  # Example of an exponential function
-        # case 4:
-        #     return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
-        # case 5:
-        #     return compose_derivative(local_polynomial, local_polynomial_derivative, local_sin, local_sin_derivative, x)
-        # case 6:
-        #     return compose_derivative(local_exp, local_exp_derivative, local_polynomial, local_polynomial_derivative, x)
-        # case 7:
-        #     return compose_derivative(local_polynomial, local_polynomial_derivative, local_exp, local_exp_derivative, x)
-        # case 8:
-        #     return compose_derivative(local_exp, local_exp_derivative, local_sin, local_sin_derivative, x)
-        # case 9:
-        #     return compose_derivative(local_sin, local_sin_derivative, local_exp, local_exp_derivative, x)
-        # case 10:
-        #     return test_pochodna(x)
+        case 4:
+            return compose_derivative(local_sin, local_sin_derivative, local_polynomial, local_polynomial_derivative, x)
+        case 5:
+            return compose_derivative(local_polynomial, local_polynomial_derivative, local_sin, local_sin_derivative, x)
+        case 6:
+            return compose_derivative(local_exp, local_exp_derivative, local_polynomial, local_polynomial_derivative, x)
+        case 7:
+            return compose_derivative(local_polynomial, local_polynomial_derivative, local_exp, local_exp_derivative, x)
+        case 8:
+            return compose_derivative(local_exp, local_exp_derivative, local_sin, local_sin_derivative, x)
+        case 9:
+            return compose_derivative(local_sin, local_sin_derivative, local_exp, local_exp_derivative, x)
+        case 10:
+            return test_pochodna(x)
         case _:
             raise ValueError("Invalid function identifier.")
 
