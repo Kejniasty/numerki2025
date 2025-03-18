@@ -20,6 +20,9 @@ def horner_method(factors, x):
         value = factors[i] + value * x
     return value
 
+
+# function that checks if on a given interval the function's (given by its id) derivative changes its sign
+# returns True if the interval doesn't change its sign
 def check_derivative_sign(func_id, lower_bound, upper_bound):
     f_lower = nonlinear_function_derivative(func_id, lower_bound)
     f_upper = nonlinear_function_derivative(func_id, upper_bound)
