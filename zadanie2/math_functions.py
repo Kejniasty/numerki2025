@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def is_diagonally_dominant(A, n):
     """Sprawdza, czy macierz A jest diagonalnie dominująca."""
     for i in range(n):
@@ -9,7 +8,6 @@ def is_diagonally_dominant(A, n):
         if diag <= off_diag_sum:
             return False
     return True
-
 
 def jacobi_method(A, b, n, criterion='a', max_iterations=100, tolerance=1e-6, x0=None):
     """Implementacja metody Jacobiego z wyborem kryterium stopu."""
@@ -58,3 +56,4 @@ def jacobi_method(A, b, n, criterion='a', max_iterations=100, tolerance=1e-6, x0
 
         print(f"Wykonano {max_iterations} iteracji.")
         return x
+

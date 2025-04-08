@@ -22,7 +22,7 @@ def load_system_from_file(filename):
 
 
 print("Metoda iteracyjna Jacobiego")
-print("Wprowadź nazwę pliku z danymi (np. 'system.txt') lub 'exit' aby zakończyć:")
+print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
 
 while True:
     filename = input("> ")
@@ -46,14 +46,13 @@ while True:
             continue
 
         if criterion == 'a':
-            max_iter = int(input("Podaj maksymalną liczbę iteracji (np. 100): "))
             tol = float(input("Podaj dokładność (np. 0.000001): "))
+            max_iter = 100
         else:
             max_iter = int(input("Podaj liczbę iteracji: "))
-            tol = None  # Nie używamy dokładności w tym przypadku
-
+            tol = 1e-6
         # Opcjonalny wektor startowy
-        x0_input = input("Podaj wektor startowy (np. '1 1 1') lub naciśnij Enter dla zerowego: ")
+        x0_input = input("Podaj wektor startowy o długości równej ilości równań (np. '1 1 1' dla 3 równań) lub naciśnij Enter dla zerowego: ")
         if x0_input:
             x0_list = list(map(float, x0_input.split()))
             if len(x0_list) != n:
