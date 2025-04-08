@@ -23,9 +23,8 @@ def load_system_from_file(filename):
 
 if __name__ == "__main__":
     print("Metoda iteracyjna Jacobiego")
-    print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
-
     while True:
+        print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
         filename = input("> ")
         if filename.lower() == 'exit':
             break
@@ -78,3 +77,4 @@ if __name__ == "__main__":
             print(f"Błąd: {e}")
         except Exception as e:
             print(f"Wystąpił błąd: {e}")
+        print()
