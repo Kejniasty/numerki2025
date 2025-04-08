@@ -158,7 +158,7 @@ def jacobi_method_a(A, b, n, tolerance=1e-6, x0=None):
         x = x_new.copy()
 
 
-    print(f"Zbieżność osiągnięta po {iteration + 1} iteracjach.")
+    print(f"Algorytm zakończył działanie {iteration + 1} iteracjach.")
     return x
 
 

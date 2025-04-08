@@ -24,13 +24,62 @@ def load_system_from_file(filename):
 if __name__ == "__main__":
     print("Metoda iteracyjna Jacobiego")
     while True:
-        print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
-        filename = input("> ")
-        if filename.lower() == 'exit':
-            break
+        print("Wybierz metodę wprowadzania układów równań:\n"
+              "a. Z pliku\n"
+              "b. Z klawiatury")
+        mode = input("> ")
+        match mode:
+            case 'a':
+                print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
+                filename = input("> ")
+                if filename.lower() == 'exit':
+                    break
 
+                try:
+                    A, b, n = load_system_from_file(filename)
+                except FileNotFoundError:
+                    print("Plik nie znaleziony!")
+                    continue
+                except ValueError as e:
+                    print(f"Błąd: {e}")
+                    continue
+                except Exception as e:
+                    print(f"Wystąpił błąd: {e}")
+                    continue
+
+            case 'b':
+                print("Wprowadź liczbę równań:")
+                n = int(input("> "))
+                A = []
+                b = []
+                try:
+                    print("Wprowadz wspolczynniki dla rownan w postaci")
+
+                    for j in range(n + 1):
+                        print(float(j + 1), end=' ')
+
+                    print(f"\nGdzie 1-{n} to współczynniki przy niewiadomych, a {n + 1} to wyraz wolny.")
+
+                    for i in range(n):
+                        print(f"\nWprowadz wspolczynniki dla rownania {i + 1}-ego:")
+                        A.append([])
+
+                        line = input("> ")
+                        line = line.split(' ')
+
+                        for j in range(n):
+                            A[i].append(float(line[j]))
+                        b.append(float(line[n]))
+                    A = np.array(A)
+                    b = np.array(b)
+
+                except ValueError as e:
+                    print(f"Błąd: {e}")
+                    continue
+                except Exception as e:
+                    print(f"Wystąpił błąd: {e}")
+                    continue
         try:
-            A, b, n = load_system_from_file(filename)
             print("Macierz A:")
             print(A)
             print("Wektor b:", b)
@@ -47,12 +96,11 @@ if __name__ == "__main__":
 
             if criterion == 'a':
                 tol = float(input("Podaj dokładność (np. 0.000001): "))
-                max_iter = 100
             else:
                 max_iter = int(input("Podaj liczbę iteracji: "))
-                tol = 1e-6
             # Opcjonalny wektor startowy
-            x0_input = input("Podaj wektor startowy o długości równej ilości równań (np. '1 1 1' dla 3 równań) lub naciśnij Enter dla zerowego: ")
+            x0_input = input(
+                "Podaj wektor startowy o długości równej ilości równań (np. '1 1 1' dla 3 równań) lub naciśnij Enter dla zerowego: ")
             if x0_input:
                 x0_list = list(map(float, x0_input.split()))
                 if len(x0_list) != n:
@@ -71,8 +119,6 @@ if __name__ == "__main__":
             if result is not None:
                 print("Rozwiązanie:", np.round(result, 6))  # Zaokrąglenie do 6 miejsc po przecinku
 
-        except FileNotFoundError:
-            print("Plik nie znaleziony!")
         except ValueError as e:
             print(f"Błąd: {e}")
         except Exception as e:

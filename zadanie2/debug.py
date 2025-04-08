@@ -40,7 +40,7 @@ for nazwa_pliku in os.listdir(sciezka):
         print(f'reading file {nazwa_pliku}')
         A, B, n = load_system_from_file(pelna_sciezka)
         try:
-            mf.jacobi_method(A, B, n)
+            print(mf.jacobi_method_a(A, B, n))
         except:
             print(f"Nieudana metoda Jacobi dla {nazwa_pliku}")
     print("\n")
