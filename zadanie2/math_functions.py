@@ -12,8 +12,7 @@ def is_diagonally_dominant(A, n):
 def jacobi_method(A, b, n, criterion='a', max_iterations=100, tolerance=1e-6, x0=None):
     """Implementacja metody Jacobiego z wyborem kryterium stopu."""
     if not is_diagonally_dominant(A, n):
-        print("Macierz nie jest diagonalnie dominująca - metoda może nie być zbieżna!")
-        return None
+        print("Ostrzeżenie: Macierz nie jest diagonalnie dominująca, ale kontynuuję obliczenia.")
 
     # Wektor początkowy (domyślnie zera, jeśli nie podano)
     x = np.zeros(n) if x0 is None else x0.copy()
