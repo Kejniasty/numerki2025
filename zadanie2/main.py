@@ -21,55 +21,60 @@ def load_system_from_file(filename):
         return A, b, n
 
 
-print("Metoda iteracyjna Jacobiego")
-print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
+if __name__ == "__main__":
+    print("Metoda iteracyjna Jacobiego")
+    print("Wprowadź nazwę pliku z danymi (np. 'systems/system.txt') lub 'exit' aby zakończyć:")
 
-while True:
-    filename = input("> ")
-    if filename.lower() == 'exit':
-        break
+    while True:
+        filename = input("> ")
+        if filename.lower() == 'exit':
+            break
 
-    try:
-        A, b, n = load_system_from_file(filename)
-        print("Macierz A:")
-        print(A)
-        print("Wektor b:", b)
+        try:
+            A, b, n = load_system_from_file(filename)
+            print("Macierz A:")
+            print(A)
+            print("Wektor b:", b)
 
-        # Wybór kryterium stopu
-        criterion = input("Wybierz kryterium stopu:\n"
-                          "a. Dokładność (|x^(k+1) - x^(k)| < ε)\n"
-                          "b. Liczba iteracji\n"
-                          "> ")
+            # Wybór kryterium stopu
+            criterion = input("Wybierz kryterium stopu:\n"
+                              "a. Dokładność (|x^(k+1) - x^(k)| < ε)\n"
+                              "b. Liczba iteracji\n"
+                              "> ")
 
-        if criterion not in ['a', 'b']:
-            print("Nieprawidłowy wybór kryterium! Wybierz 'a' lub 'b'.")
-            continue
+            if criterion not in {'a', 'b'}:
+                print("Nieprawidłowy wybór kryterium! Wybierz 'a' lub 'b'.")
+                continue
 
-        if criterion == 'a':
-            tol = float(input("Podaj dokładność (np. 0.000001): "))
-            max_iter = 100
-        else:
-            max_iter = int(input("Podaj liczbę iteracji: "))
-            tol = 1e-6
-        # Opcjonalny wektor startowy
-        x0_input = input("Podaj wektor startowy o długości równej ilości równań (np. '1 1 1' dla 3 równań) lub naciśnij Enter dla zerowego: ")
-        if x0_input:
-            x0_list = list(map(float, x0_input.split()))
-            if len(x0_list) != n:
-                print(f"Błąd: Wektor startowy musi mieć {n} elementów, a podano {len(x0_list)}!")
-                x0 = None
+            if criterion == 'a':
+                tol = float(input("Podaj dokładność (np. 0.000001): "))
+                max_iter = 100
             else:
-                x0 = np.array(x0_list)
-        else:
-            x0 = None
+                max_iter = int(input("Podaj liczbę iteracji: "))
+                tol = 1e-6
+            # Opcjonalny wektor startowy
+            x0_input = input("Podaj wektor startowy o długości równej ilości równań (np. '1 1 1' dla 3 równań) lub naciśnij Enter dla zerowego: ")
+            if x0_input:
+                x0_list = list(map(float, x0_input.split()))
+                if len(x0_list) != n:
+                    print(f"Błąd: Wektor startowy musi mieć {n} elementów, a podano {len(x0_list)}!")
+                    x0 = None
+                else:
+                    x0 = np.array(x0_list)
+            else:
+                x0 = None
 
-        result = mf.jacobi_method(A, b, n, criterion=criterion, max_iterations=max_iter, tolerance=tol, x0=x0)
-        if result is not None:
-            print("Rozwiązanie:", np.round(result, 6))  # Zaokrąglenie do 6 miejsc po przecinku
+            if criterion == 'a':
+                result = mf.jacobi_method_a(A, b, n, tolerance=tol, x0=x0)
+            else:
+                result = mf.jacobi_method_b(A, b, n, max_iterations=max_iter)
 
-    except FileNotFoundError:
-        print("Plik nie znaleziony!")
-    except ValueError as e:
-        print(f"Błąd: {e}")
-    except Exception as e:
-        print(f"Wystąpił błąd: {e}")
+            if result is not None:
+                print("Rozwiązanie:", np.round(result, 6))  # Zaokrąglenie do 6 miejsc po przecinku
+
+        except FileNotFoundError:
+            print("Plik nie znaleziony!")
+        except ValueError as e:
+            print(f"Błąd: {e}")
+        except Exception as e:
+            print(f"Wystąpił błąd: {e}")
