@@ -46,12 +46,12 @@ y_interpolated = [ip.newton_evaluate(x, x_nodes, coeffs) for x in x_plot]
 
 # Plotting
 plt.figure(figsize=(10, 6))
-plt.plot(x_plot, y_original, '-', color='#1f9f8b', label='Original function')
-plt.plot(x_plot, y_interpolated, '--', color = '#9BECBB', label='Interpolating polynomial')
-plt.plot(x_nodes, y_nodes, 'D', color = '#ec9bcc', label='Interpolation nodes')
+plt.plot(x_plot, y_original, '-', color='#1f9f8b', label='Pierwotna funkcja')
+plt.plot(x_plot, y_interpolated, '--', color = '#9BECBB', label='Wielomian Interpolujący')
+plt.plot(x_nodes, y_nodes, 'D', color = '#ec9bcc', label='Węzły interpolacji')
 plt.grid(True)
 plt.legend()
-plt.title('Newton Interpolation (Uneven Nodes)')
+plt.title('Interpolacja Newtona (Nierównomierne Węzły)')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
