@@ -53,6 +53,12 @@ def plot_function(func, func_name, a=5.0, n=1000, nodes_list=[2, 3, 4, 5]):
     # Generowanie punktów dla wykresu
     x = np.linspace(-a, a, 1000)
     y = func(x)  # Wartości funkcji f(x)
+    if isinstance(y, float):
+        y = []
+        for element in x:
+            y.append(func(element))
+        y = np.array(y)
+
     weight = np.exp(-x ** 2)  # Waga e^(-x^2)
     y_weighted = y * weight  # f(x) * e^(-x^2)
 
